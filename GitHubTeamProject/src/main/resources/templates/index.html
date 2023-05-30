@@ -1,0 +1,165 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Список дипломних проектів</title>-->
+<!--</head>-->
+
+<!--<body>-->
+<!--    <h1>Список дипломних проектів</h1>-->
+
+<!--    <table>-->
+<!--  <thead>-->
+<!--<tr>-->
+<!--    <th>ПІБ курсанта</th>-->
+<!--    <th>Назва дипломного проекту</th>-->
+<!--    <th>Рецензент</th>-->
+<!--    <th>Рік</th>-->
+<!--    <th>Керівник</th>-->
+<!--</tr>-->
+<!--  </thead>-->
+<!--  <tbody>-->
+<!--<tr th:each="project : ${projects}">-->
+<!--    <td th:text="${project.studentName}"></td>-->
+<!--    <td th:text="${project.projectName}"></td>-->
+<!--    <td th:text="${project.reviewer}"></td>-->
+<!--    <td th:text="${project.year}"></td>-->
+<!--    <td th:text="${project.supervisor}"></td>-->
+<!--</tr>-->
+
+<!--<tr>-->
+<!--    <td>Petrovich</td>-->
+<!--    <td>KolayderProject</td>-->
+<!--    <td>Romanovskiy</td>-->
+<!--    <td>2023</td>-->
+<!--    <td>Somebody</td>-->
+
+<!--</tr>-->
+<!--<tr>-->
+<!--    <td>Petrovich</td>-->
+<!--    <td>KolayderProject</td>-->
+<!--    <td>Romanovskiy</td>-->
+<!--    <td>2023</td>-->
+<!--    <td>Somebody</td>-->
+
+<!--</tr>-->
+<!--<tr>-->
+<!--    <td>Petrovich</td>-->
+<!--    <td>KolayderProject</td>-->
+<!--    <td>Romanovskiy</td>-->
+<!--    <td>2023</td>-->
+<!--    <td>Somebody</td>-->
+
+<!--</tr>-->
+<!--<tr>-->
+<!--    <td>Petrovich</td>-->
+<!--    <td>KolayderProject</td>-->
+<!--    <td>Romanovskiy</td>-->
+<!--    <td>2023</td>-->
+<!--    <td>Somebody</td>-->
+
+<!--</tr>-->
+<!--  </tbody>-->
+<!--    </table>-->
+<!--</body>-->
+
+<!--</html>-->
+
+
+
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Список дипломних проектів</title>
+  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+  <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1>Список дипломних проектів</h1>
+    <div class="row"> <br>
+      <form action="#" th:action="@{/add}" th:object="${diploma}" method="post">
+        <table>
+          <tr>
+            <td>ПІБ курсанта:</td>
+            <td><input type="text" :field="*{name}" name="name"> </td>
+          </tr>
+          <tr>
+            <td>Назва дипломного проекту:</td>
+            <td><input type="text" :field="*{diploma}" name="diploma"></td>
+          </tr>
+          <tr>
+            <td>Рецензент:</td>
+            <td><input type="text" :field="*{recez}" name="recez"></td>
+          </tr>
+          <tr>
+            <td>Рік:</td>
+            <td><input type="text" :field="*{year}" name="year"></td>
+          </tr>
+          
+          <tr>
+            <td>Керівник:</td>
+            <td><input type="text" :field="*{recez}" name="recez"></td>
+          </tr>
+
+          <tr>
+            <td><button type="submit">Add</button> </td>
+          </tr>
+        </table>
+      </form> <br>
+      <div> <a href="/download/pdf">Click here to download pdf</a> <br> <a href="/download/excel">Click here to
+          download excel</a><br>
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <tr>
+                 <th>ПІБ курсанта        </th>
+                 <th>Назва дипломного проекту         </th>
+                 <th>Рецензент        </th>
+                 <th>Рік           </th>
+                 <th>Керівник </th>
+              
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="diploma : ${diploms}">
+            <td th:text="${diploma.}">gsdgdsg</td>
+            <td th:text="${diploma.}">gsdgsdg</td>
+            <td th:text="${diploma.}">gdsgsdgsd</td>
+            <td th:text="${diploma.}">gdsgsdgsd</td>
+
+            <td th:text="${diploma.}">gdsgsdgsd</td>
+
+          </tr>
+          <tr th:each="diploma : ${diploms}">
+            <td th:text="${diploma.}">gsdgdsg</td>
+            <td th:text="${diploma.}">gsdgsdg</td>
+            <td th:text="${diploma.}">gdsgsdgsd</td>
+            <td th:text="${diploma.}">gdsgsdgsd</td>
+
+            <td th:text="${diploma.}">gdsgsdgsd</td>
+
+          </tr>
+          <tr th:each="diploma : ${diploms}">
+            <td th:text="${diploma.}">gsdgdsg</td>
+            <td th:text="${diploma.}">gsdgsdg</td>
+            <td th:text="${diploma.}">gdsgsdgsd</td>
+            <td th:text="${diploma.}">gdsgsdgsd</td>
+
+            <td th:text="${diploma.}">gdsgsdgsd</td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+
+</html>
