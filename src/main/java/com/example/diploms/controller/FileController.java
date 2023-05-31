@@ -14,14 +14,16 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.io.*;
+import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-
+@Controller
 public class FileController {
     @Autowired
     private DiplomaRepository repository;
@@ -103,17 +105,17 @@ public class FileController {
 
     private void createExcelFile(String filePath) throws IOException{
         XSSFWorkbook workbook = new XSSFWorkbook();// spreadsheet object
-        XSSFSheet spreadsheet = workbook.createSheet(" Student Data ");
+        XSSFSheet spreadsheet = workbook.createSheet(" Cadets' Diplomas ");
         //creating a row object
         XSSFRow row;
         //This data needs to be written (Object[])
         Map<String, Object[]> diplomaData
         = new TreeMap<String, Object[]>();
-        diplomaData.put("1", new Object[]{"Name", "Surname", "City"});
+        diplomaData.put("1", new Object[]{"Id","projectName","Reviewer", "Supervisor", "Year"});
         int i=1;
         for(Diploma diploma: repository.findAll())
         {
-            diplomaData.put(String.valueOf(i+1), new Object[]{diploma.getName(), diploma.getSurname(), diploma.getCity()});
+            diplomaData.put(String.valueOf(i+1), new Object[]{diploma.getId(),diploma.getProjectName(), diploma.getReviewer(), diploma.getSupervisor(),diploma.getYear()});
         i++;
         }
         Set<String> keyid = diplomaData.keySet();
@@ -124,7 +126,7 @@ public class FileController {
         int cellid = 0;
         for (Object obj : objectArr) {
         Cell cell = row.createCell(cellid++);
-        cell.setCellValue((String) obj);
+        cell.setCellValue(String.valueOf( obj));
         }
         }
         FileOutputStream out = new FileOutputStream(filePath);
@@ -138,28 +140,36 @@ public class FileController {
         try {
             PdfWriter.getInstance(doc, new FileOutputStream(filePath));
             doc.open();
-            String text = "Report\n" +
-                    "from 07/28/23 to 08/08/23 cadets have a rest\n";
+            String text = "Report\n\n\n" +
+                    "from "+ new Date()+" cadets have a diploma\n\n\n";
             Paragraph paragraph = new Paragraph(text);
             paragraph.setAlignment(Element.ALIGN_JUSTIFIED);
             paragraph.setFont(new Font(
-                    Font.FontFamily.HELVETICA, 10, Font.NORMAL));
+                    Font.FontFamily.HELVETICA, 5, Font.NORMAL));
             doc.add(paragraph);
-            PdfPTable table = new PdfPTable(3);
-            PdfPCell cell1 = new PdfPCell(new Phrase("Name"));
-            PdfPCell cell2 = new PdfPCell(new Phrase("Surname"));
-            PdfPCell cell3 = new PdfPCell(new Phrase("City"));
+            PdfPTable table = new PdfPTable(5); //"Id","projectName","Reviewer", "Supervisor", "Year"
+            PdfPCell cell1 = new PdfPCell(new Phrase("Id"));
+            PdfPCell cell2 = new PdfPCell(new Phrase("projectName"));
+            PdfPCell cell3 = new PdfPCell(new Phrase("Reviewer"));
+            PdfPCell cell4 = new PdfPCell(new Phrase("Supervisor"));
+            PdfPCell cell5 = new PdfPCell(new Phrase("Year"));
             table.addCell(cell1);
             table.addCell(cell2);
             table.addCell(cell3);
+            table.addCell(cell4);
+            table.addCell(cell5);
             for(Diploma diploma: repository.findAll())
-            {
-                PdfPCell cellName = new PdfPCell(new Phrase(diploma.getName()));
-                PdfPCell cellSurname = new PdfPCell(new Phrase(diploma.getSurname()));
-                PdfPCell cellCity = new PdfPCell(new Phrase(diploma.getCity()));
-                table.addCell(cellName);
-                table.addCell(cellSurname);
-                table.addCell(cellCity);
+            {   //diploma.getId(),diploma.getProjectName(), diploma.getReviewer(), diploma.getSupervisor(),diploma.getYear()
+                PdfPCell cellId = new PdfPCell(new Phrase(diploma.getId().toString()));
+                PdfPCell cellProjectName = new PdfPCell(new Phrase(diploma.getProjectName()));
+                PdfPCell cellReviewer = new PdfPCell(new Phrase(diploma.getReviewer()));
+                PdfPCell cellSupervisor = new PdfPCell(new Phrase(diploma.getSupervisor()));
+                PdfPCell cellYear = new PdfPCell(new Phrase(String.valueOf(diploma.getYear())));
+                table.addCell(cellId);
+                table.addCell(cellProjectName);
+                table.addCell(cellReviewer);
+                table.addCell(cellSupervisor);
+                table.addCell(cellYear);
             }
             doc.add(table);
         } catch (DocumentException | FileNotFoundException e) {
